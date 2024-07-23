@@ -151,3 +151,12 @@ width: 22px;
 .tabsContainer .tabList li a {
     text-decoration: none;
 }
+
+.tabsContainer .tabList li.active {
+    border-bottom: 3px solid #1a73eb;
+}
+
+.tabsContainer .tabList li.active a {
+    font-weight: bold;
+    color: #1a73eb;
+}

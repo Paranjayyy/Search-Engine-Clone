@@ -3,6 +3,11 @@
 <head>
 	<title>Welcome to Doodle</title>
 
+	<meta name="description" content="Search the web for sites and images.">
+	<meta name="keywords" content="Search Engine, Kuch Bhi, websites">
+	<meta name="author" content="Paranjay Goel">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 <body>
