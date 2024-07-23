@@ -1,3 +1,14 @@
+<?php
+
+    if(isset($_GET["keywords"]))
+    {
+        $keywords = $_GET["keywords"];
+    }
+    else
+    {
+        exit("You must enter a search term");
+    }
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,6 +51,26 @@
 
                 </div>
                 
+
+            </div>
+
+            <div class="tabsContainer">
+
+                <ul class="tabList">
+
+                    <li>
+                        <a href='<?php echo "search.php?keywords=$keywords&type=sites"; ?>'>
+                        Sites
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href='<?php echo "search.php?keywords=$keywords&type=images"; ?>'>
+                        Images
+                        </a>
+                    </li>
+
+                </ul>
 
             </div>
 
