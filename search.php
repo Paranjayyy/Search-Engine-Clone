@@ -1,8 +1,8 @@
 <?php
 
-    if(isset($_GET["keywords"]))
+    if(isset($_GET["keyword"]))
     {
-        $keywords = $_GET["keywords"];
+        $keyword = $_GET["keyword"];
     }
     else
     {
@@ -46,7 +46,7 @@
 
                         <div class="searchBarContainer">
 
-                            <input class="searchBox" type="text" name="keywords">
+                            <input class="searchBox" type="text" name="keyword">
                             <button class="searchButton">
                                 <img src="assets/images/icons/search.png">
                             </button>
@@ -68,13 +68,13 @@
                 <ul class="tabList">
 
                     <li class="<?php echo $type == 'sites' ? 'active' : '' ?>">
-                        <a href='<?php echo "search.php?keywords=$keywords&type=sites"; ?>'>
+                        <a href='<?php echo "search.php?keyword=$keyword&type=sites"; ?>'>
                         Sites
                         </a>
                     </li>
 
                     <li class="<?php echo $type == 'images' ? 'active' : '' ?>">
-                        <a href='<?php echo "search.php?keywords=$keywords&type=images"; ?>'>
+                        <a href='<?php echo "search.php?keyword=$keyword&type=images"; ?>'>
                         Images
                         </a>
                     </li>

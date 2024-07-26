@@ -18,13 +18,13 @@
 		<div class="mainSection">
 
 			<div class="logoContainer">
-				<img src="assets/images/Logo.png">
+				<img src="assets/images/Logo.png" title="Logo of our site" alt="Site Logo">
 			</div>
 
 			<div class="searchContainer">
 
 				<form action="search.php" method="GET">
-					<input class="searchBox" type="text" name="keywords">
+					<input class="searchBox" type="text" name="keyword">
 					<input class="searchButton" type="submit" value="Search">
 				</form>
 
