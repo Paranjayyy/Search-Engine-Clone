@@ -18,11 +18,11 @@ class DomDocumentParser {
 		return $this->doc->getElementsByTagName("a");
 	}
 
-	public function getTitletags() {
+	public function getTitleTags() {
 		return $this->doc->getElementsByTagName("title");
 	}
 
-    public function getMetatags() {
+	public function getMetaTags() {
 		return $this->doc->getElementsByTagName("meta");
 	}
 

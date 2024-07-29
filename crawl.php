@@ -41,10 +41,10 @@ function insertImage($url, $src, $alt, $title)
     $query = $con->prepare("INSERT INTO images(siteUrl, imageUrl, alt, title)
                             VALUES(:siteUrl, :imageUrl, :alt, :title)");
     
-    $query->bindParam(":url", $url);
+    $query->bindParam(":siteUrl", $url);
+    $query->bindParam(":imageUrl", $src);
+    $query->bindParam(":alt", $alt);
     $query->bindParam(":title", $title);
-    $query->bindParam(":description", $description);
-    $query->bindParam(":keywords", $keywords);
 
     return $query->execute();
 }
@@ -79,6 +79,9 @@ function createLink($src, $url)
 }
 
 function getDetails($url) {
+
+    global $alreadyFoundImages;
+
     $parser = new DomDocumentParser($url);
 
     $titleArray = $parser->getTitletags();
@@ -140,11 +143,10 @@ function getDetails($url) {
         if(!in_array($src, $alreadyFoundImages)) {
             $alreadyFoundImages[] = $src;
 
-            //insert the image
+            insertImage($url, $src, $alt, $title);
         }
 
     }
-    
     
     //echo "URL : $url, Description : $description, Keywords : $keywords <br>";
 }
