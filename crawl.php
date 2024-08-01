@@ -187,6 +187,6 @@ function followLinks($url) {
     }
 }
 
-$startUrl = "http://www.bbc.com";
+$startUrl = "http://www.stackoverflow.com";
 followLinks($startUrl);
 ?>
