@@ -1,4 +1,6 @@
 <?php
+include("config.php");
+include("classes/SiteResultsProvider.php");
 
     if(isset($_GET["keyword"]))
     {
@@ -87,6 +89,21 @@
 
         </div>
 		
+        <div class="mainResultsSection">
+
+            <?php
+            $resultsProvider = new SiteResultsProvider($con);
+
+            $numResults = $resultsProvider->getNumResults($keyword);
+
+            echo "<p class='resultsCount'>$numResults results found</p>";
+
+            echo $resultsProvider->getResultsHtml(1, 20, $keyword);
+            ?>
+
+        </div>
+
+
 
 	</div>
 
