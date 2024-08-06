@@ -106,10 +106,41 @@ include("classes/SiteResultsProvider.php");
             ?>
 
         </div>
+
+        <div class="paginationContainer"> <!-- new class for paging -->
         
-        <div class="paginationContainer">
+            <div class="pageButtons"> <!--sub-class for all the imgs and funcitons on them-->
 
 
+                <div class="pageNumberContainer">
+                    <img src="assets/images/pageStart.png">
+                </div>
+
+                <?php // shows the images with the page number on the search page.
+
+                $currentPage = 1;
+                $pagesLeft = 10;
+
+                while($pagesLeft != 0)
+                {
+                    echo "<div class='pageNumberContainer'>
+                                <img src='assets/images/page.png'> 
+                                <span class='pageNumber'>$currentPage</span>                    
+                            </div>"; // displays the images, along with page number(span class=pageNumber shows the current page number)
+
+                    $currentPage++;
+                    $pagesLeft--;
+                }
+
+
+                ?>
+
+                <div class="pageNumberContainer">
+                    <img src="assets/images/pageEnd.png">
+                </div>
+
+
+            </div>
 
         </div>
 
