@@ -19,6 +19,8 @@ include("classes/SiteResultsProvider.php");
     {
         $type="sites";
     }
+
+    $page = isset($_GET["page"]) ? $_GET["page"] : 1;
 ?>
 <!DOCTYPE html>
 <html>
@@ -48,7 +50,7 @@ include("classes/SiteResultsProvider.php");
 
                         <div class="searchBarContainer">
 
-                            <input class="searchBox" type="text" name="keyword">
+                            <input class="searchBox" type="text" name="keyword" value="<?php echo $keyword; ?>">
                             <button class="searchButton">
                                 <img src="assets/images/icons/search.png">
                             </button>
@@ -94,12 +96,20 @@ include("classes/SiteResultsProvider.php");
             <?php
             $resultsProvider = new SiteResultsProvider($con);
 
+            $pageLimit = 20;  //variable for passing limit of URLs to display on one page.
+
             $numResults = $resultsProvider->getNumResults($keyword);
 
             echo "<p class='resultsCount'>$numResults results found</p>";
 
-            echo $resultsProvider->getResultsHtml(1, 20, $keyword);
+            echo $resultsProvider->getResultsHtml($page, $pageLimit, $keyword);
             ?>
+
+        </div>
+        
+        <div class="paginationContainer">
+
+
 
         </div>
 

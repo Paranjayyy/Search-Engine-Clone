@@ -187,6 +187,6 @@ function followLinks($url) {
     }
 }
 
-$startUrl = "http://www.wikipedia.org";
+$startUrl = "https://www.industowers.com";
 followLinks($startUrl);
 ?>
