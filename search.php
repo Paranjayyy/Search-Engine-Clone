@@ -28,6 +28,8 @@ include("classes/SiteResultsProvider.php");
 	<title>Welcome to Doodle</title>
 
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script> <!--Jquery inclusion for use (CDN)-->
 </head>
 <body>
 
@@ -48,7 +50,9 @@ include("classes/SiteResultsProvider.php");
 
                     <form action="search.php" method="GET">
 
-                        <div class="searchBarContainer">
+                        <div class="searchBarContainer"> <!--this is the form that gets the keyword and also the 'type' now.-->
+
+                            <input type="hidden" name="type" value="<?php echo $type; ?>"><!--gets the 'type' to pass to the URL.-->
 
                             <input class="searchBox" type="text" name="keyword" value="<?php echo $keyword; ?>">
                             <button class="searchButton">
@@ -96,13 +100,13 @@ include("classes/SiteResultsProvider.php");
             <?php
             $resultsProvider = new SiteResultsProvider($con);
 
-            $pageLimit = 20;  //variable for passing limit of URLs to display on one page.
+            $pageSize = 20;  //variable for passing limit of URLs to display on one page.
 
             $numResults = $resultsProvider->getNumResults($keyword);
 
             echo "<p class='resultsCount'>$numResults results found</p>";
 
-            echo $resultsProvider->getResultsHtml($page, $pageLimit, $keyword);
+            echo $resultsProvider->getResultsHtml($page, $pageSize, $keyword);
             ?>
 
         </div>
@@ -118,15 +122,46 @@ include("classes/SiteResultsProvider.php");
 
                 <?php // shows the images with the page number on the search page.
 
-                $currentPage = 1;
-                $pagesLeft = 10;
+                $pagesToShow = 10;
+                $numPages = ceil($numResults / $pageSize);//this calculates the total pages we would need to have accord=ding to the numebr of URLs found, and gives the GINT value (to avoid decimals)
+                $pagesLeft = min($pagesToShow, $numPages); // to see how many pages to show, as we could also have less than 10 pages
 
-                while($pagesLeft != 0)
+                $currentPage = $page - floor($pagesToShow / 2); //this variable will help us to keep some pags on either side of the current page btton below.
+
+                if($currentPage < 1)
                 {
-                    echo "<div class='pageNumberContainer'>
-                                <img src='assets/images/page.png'> 
+                    $currentPage = 1; // this makes it so that if the current page was less than floor value, then we cant show '0', so default to 1.
+                }
+
+                if($currentPage + $pagesLeft > $numPages + 1)
+                {
+                    $currentPage = $numPages + 1 - $pagesLeft;//this handles the edge case of 10 links not being displayed
+                }
+
+                while($pagesLeft != 0 && $currentPage <= $numPages)
+                {
+
+                    if($currentPage == $page)
+                    {
+                        echo "<div class='pageNumberContainer'>
+                                <img src='assets/images/pageSelected.png'> 
                                 <span class='pageNumber'>$currentPage</span>                    
-                            </div>"; // displays the images, along with page number(span class=pageNumber shows the current page number)
+                            </div>"; //this also makes it so that the current page we are on is not clickable, while the otehrs will be
+                            // displays the red image of page, along with page number(span class=pageNumber shows the current page number)
+                    }
+                    else 
+                    {
+                        echo "<div class='pageNumberContainer'>
+                                <a href='search.php?keyword=$keyword&type=$type&page=$currentPage'>
+                                    <img src='assets/images/page.png'> 
+                                    <span class='pageNumber'>$currentPage</span>  
+                                </a>                  
+                            </div>"; //this displays the images with page numebr, along with it being clickable to go to that page
+                            //the <a> links the image and the number to the page link we create
+                            // displays the images, along with page number(span class=pageNumber shows the current page number)
+                    }
+
+                    
 
                     $currentPage++;
                     $pagesLeft--;
@@ -147,6 +182,6 @@ include("classes/SiteResultsProvider.php");
 
 
 	</div>
-
+    <script type="text/javascript" src="assets/js/script.js"></script><!--including the js file at end as the page loads first, then js shld run-->
 </body>
 </html>
