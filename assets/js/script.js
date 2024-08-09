@@ -1,3 +1,5 @@
+var timer;
+
 $(document).ready(function() {
 
     //click event for the URL title being displayed
@@ -19,8 +21,49 @@ $(document).ready(function() {
 		return false; // stops the URL from executing normal behaviour, like going to the URL clicked.
 	});
 
+    var grid = $(".imageResults");
+
+    grid.on("layoutComplete", function() {
+        $(".gridItem img").css("visibility", "visible");//this makes it so that as soon as the layout is finished, the visibility of images becomes visible, before it remains hidden
+    });
+
+    grid.masonry({
+        itemSelector: ".gridItem",
+        columnWidth: 220,
+        gutter: 6,
+        transitionTimer: '1s',
+        isInitLayout: false //we have dont this so that we can load images dynamically using js and not show them if they dont work.
+    });
+
 
 });
+
+function loadImage(src, className)//function called in js of imageResultsProvider.php for masonry layout
+{
+    
+    var image = $("<img>"); //this is a Jquery 'image' Object
+
+    image.on("load", function() {
+        $("." + className + " a").append(image); //we put it under the 'a' attribute of class=image$count.
+        
+        clearTimeout(timer);//built-in js function, makes it so that the masonry code isnt called again and again
+
+        timer = setTimeout(function() {
+            $(".imageResults").masonry();//this fixes the issue of first search being broken
+        }, 500);//500 milliseconds wait
+        
+        
+    });//does this function if the image loads successfully. 
+
+    image.on("error", function() {
+
+    });//updates the value of "broken" in the Images database, and doesnt display it ever again.
+
+    image.attr("src", src);//sets the src attribute of page-> <img src="  sets here   ">
+
+
+
+}
 
 //funciton to get the clicks with 2 parameters, linkId for knowing which link's clicks to increase, and the URL as we are returning false, so now we also need to actually go to the URL clicked.
 function increaseLinkClicks(linkId, url) {

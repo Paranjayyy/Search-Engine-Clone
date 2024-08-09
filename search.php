@@ -1,6 +1,7 @@
 <?php
 include("config.php");
 include("classes/SiteResultsProvider.php");
+include("classes/ImageResultsProvider.php");//included the file for images
 
     if(isset($_GET["keyword"]))
     {
@@ -98,9 +99,17 @@ include("classes/SiteResultsProvider.php");
         <div class="mainResultsSection">
 
             <?php
-            $resultsProvider = new SiteResultsProvider($con);
 
-            $pageSize = 20;  //variable for passing limit of URLs to display on one page.
+            if($type == 'sites')
+            {
+                $resultsProvider = new SiteResultsProvider($con);
+                $pageSize = 20;  //variable for passing limit of URLs to display on one page.
+            }
+            else //calls the ImageResultsProvider constructor for Image Search
+            {
+                $resultsProvider = new ImageResultsProvider($con);
+                $pageSize = 30;  //variable for passing limit of URLs to display on one page.
+            }
 
             $numResults = $resultsProvider->getNumResults($keyword);
 
@@ -182,6 +191,7 @@ include("classes/SiteResultsProvider.php");
 
 
 	</div>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <script type="text/javascript" src="assets/js/script.js"></script><!--including the js file at end as the page loads first, then js shld run-->
 </body>
 </html>

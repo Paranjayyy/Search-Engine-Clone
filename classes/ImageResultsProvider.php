@@ -28,12 +28,12 @@ class ImageResultsProvider {
         $fromLimit = ($page - 1) * $pageSize;
 
         $query = $this->con->prepare("SELECT *
-                                        FROM sites WHERE title LIKE :term
-                                        OR url LIKE :term
-                                        OR keywords LIKE :term
-                                        OR description LIKE :term
+                                        FROM images 
+                                        WHERE (title LIKE :term
+                                        OR alt LIKE :term)
+                                        AND broken=0
                                         ORDER BY  clicks DESC
-                                        LIMIT :fromLimit, :pageSize"); //this query already shows the URL with the highest clicks first, as we use DESC by clicks
+                                        LIMIT :fromLimit, :pageSize"); //this gets the images that matched
 
         $searchTerm = "%" . $term . "%";
         $query->bindParam(":term", $searchTerm);
@@ -41,28 +41,55 @@ class ImageResultsProvider {
         $query->bindParam(":pageSize", $pageSize, PDO::PARAM_INT);
         $query->execute();
 
-        $resultsHtml = "<div class='siteResults'>";
+        $resultsHtml = "<div class='imageResults'>"; //image results instead of siteResults
 
+        $count = 0;//setting this for distinguishing count for each image, as we are having a unique class along with gridItem
         while($row = $query->fetch(PDO::FETCH_ASSOC)) {
+
+            $count++;
+
             $id = $row["id"];
-            $url = $row["url"];
+            $imageUrl = $row["imageUrl"];
+            $siteUrl = $row["siteUrl"];
             $title = $row["title"];
-            $description = $row["description"];
+            $alt = $row["alt"];
 
-            $title = $this->trimField($title, 55);
-            $description = $this->trimField($description, 200);
+            //this is for showing the info when we hover over an image.
 
-            $resultsHtml .= "<div class='resultContainer'>
+            if($title)
+            {
+                $displayText = $title;
+            }
+            else if($alt)
+            {
+                $displayText = $alt;
+            }
+            else
+            {
+                $displayText = $imageUrl;//if there is no title or alt of the image, then display its url
+            }
+            //here, the class=gridItem is the class being used for the Masonry Layout call, to arrange all images
+            //we inject js here so that we can do masonry layout successfully.
+            //the document.ready executes when the doc is ready to execute it.
+            //we are calling a function made in script.js called loadImage, and using escape characters to use double quotes for the input, withput ending the actual string code.
+            // this class becomes -> gridItem image1, then gridItem image2, etc etc for every image so on.
+            //we also pass the class name as a variable to the loadImage funciton
+            //we can now append the image to this class as we have passed one as a prameter
+            $resultsHtml .= "<div class='gridItem image$count'> 
 
-                                <h3 class='title'>
-                                    <a class='result' href='$url' data-linkId='$id'>
-                                        $title
-                                    </a>
-                                </h3>
-                                <span class='url'>$url</span>
-                                <span class='description'>$description</span>
+                                <a href='$imageUrl'> 
+                                    
+                                    <script>
+                                    $(document).ready(function() {
+                                        loadImage(\"$imageUrl\", \"image$count\");
+                                    });
 
-                            </div>";
+                                    </script>
+
+                                    <span class='details'>$displayText</span>
+                                </a>
+
+                            </div>"; //this gets the images to display on the page, the <span> gets the info to display that we fetched in the $displayText variable.
 
         }
 
