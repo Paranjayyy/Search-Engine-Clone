@@ -31,8 +31,8 @@ $(document).ready(function() {
         itemSelector: ".gridItem",
         columnWidth: 220,
         gutter: 6,
-        transitionTimer: '1s',
-        isInitLayout: false //we have dont this so that we can load images dynamically using js and not show them if they dont work.
+        transitionTimer: '0.2s',
+        isInitLayout: false //we have done this so that we can load images dynamically using js and not show them if they dont work.
     });
 
 
@@ -56,6 +56,10 @@ function loadImage(src, className)//function called in js of imageResultsProvide
     });//does this function if the image loads successfully. 
 
     image.on("error", function() {
+
+        $("." + className).remove();//removes any empty element from the page based on the passed class - className
+
+        $.post("ajax/setBroken.php", {src: src});//AJAX call to a file - setBroken.php, to set broken = 1 for urls.
 
     });//updates the value of "broken" in the Images database, and doesnt display it ever again.
 
