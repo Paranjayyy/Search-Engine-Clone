@@ -34,6 +34,23 @@ $(document).ready(function() {
         transitionTimer: '0.2s',
         isInitLayout: false //we have done this so that we can load images dynamically using js and not show them if they dont work.
     });
+    
+    //new way to call the fancybox layout
+    Fancybox.bind("[data-fancybox]", {
+        caption : function( instance, item ) {
+            var caption = $(this).data('caption') || item.caption || ''; // Retain original caption if available
+            var siteUrl = $(this).data('siteurl') || '';
+    
+            if( item.type === 'image' ) {
+                caption += (caption.length ? '<br />' : '') 
+                        + '<a href="' + item.src + '">View image</a><br>'
+                        + '<a href="' + siteUrl + '">Visit page</a>'; // Add image and site links
+            }
+    
+            return caption;
+        }
+    });
+    
 
 
 });

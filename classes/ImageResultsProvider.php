@@ -77,7 +77,7 @@ class ImageResultsProvider {
             //we can now append the image to this class as we have passed one as a prameter
             $resultsHtml .= "<div class='gridItem image$count'> 
 
-                                <a href='$imageUrl'> 
+                                <a href='$imageUrl' data-fancybox data-siteurl='$siteUrl' data-caption='$displayText'> 
                                     
                                     <script>
                                     $(document).ready(function() {

@@ -28,6 +28,7 @@ include("classes/ImageResultsProvider.php");//included the file for images
 <head>
 	<title>Welcome to Doodle</title>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" /> <!--CDN for fancybox usage-->
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script> <!--Jquery inclusion for use (CDN)-->
@@ -191,6 +192,7 @@ include("classes/ImageResultsProvider.php");//included the file for images
 
 
 	</div>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <script type="text/javascript" src="assets/js/script.js"></script><!--including the js file at end as the page loads first, then js shld run-->
 </body>
